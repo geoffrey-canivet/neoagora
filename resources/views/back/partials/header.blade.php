@@ -2,16 +2,16 @@
     <div class="header-left">
         <a href="index.html" class="logo">
             <img
-                src="{{asset('back_auth/assets/img/logo.png')}}"
+                src="{{asset('back_auth/assets/profile/'.\Illuminate\Support\Facades\Auth::user()->image)}}"
                 width="50"
                 height="70"
                 alt="logo"
             />
-            <span class="logoclass">John Doe</span>
+            <span class="logoclass">{{\Illuminate\Support\Facades\Auth::user()->name}}</span>
         </a>
         <a href="index.html" class="logo logo-small">
             <img
-                src="{{asset('back_auth/assets/img/logo.png')}}"
+                src="{{asset('back_auth/assets/profile/'.\Illuminate\Support\Facades\Auth::user()->image)}}"
                 alt="Logo"
                 width="30"
                 height="30"
@@ -29,26 +29,26 @@
               <span class="user-img"
               ><img
                       class="rounded-circle"
-                      src="assets/img/profiles/avatar-01.png"
+                      src="{{asset('back_auth/assets/profile/'.\Illuminate\Support\Facades\Auth::user()->image)}}"
                       width="31"
-                      alt="John Doe"
+                      alt="{{\Illuminate\Support\Facades\Auth::user()->name}}"
                   /></span>
             </a>
             <div class="dropdown-menu">
                 <div class="user-header">
                     <div class="avatar avatar-sm">
                         <img
-                            src="assets/img/profiles/avatar-01.png"
+                            src="{{asset('back_auth/assets/profile/'.\Illuminate\Support\Facades\Auth::user()->image)}}"
                             alt="User Image"
                             class="avatar-img rounded-circle"
                         />
                     </div>
                     <div class="user-text">
-                        <h6>John Doe</h6>
+                        <h6>{{\Illuminate\Support\Facades\Auth::user()->name}}</h6>
                         <p class="text-muted mb-0">Administrateur</p>
                     </div>
                 </div>
-                <a class="dropdown-item" href="profile.html">Profile</a>
+                <a class="dropdown-item" href="{{route('profile.edit')}}">Profile</a>
                 <a class="dropdown-item" href="settings.html">Paramettre</a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf

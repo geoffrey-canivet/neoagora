@@ -26,16 +26,33 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
+        // Remplit les infos validées
         $request->user()->fill($request->validated());
 
+        // Si l'email a changé, il faut reverifier
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
 
+        // Gestion de l'image
+        if ($request->hasFile('image')) {
+            if (!empty($request->user()->image) && file_exists(public_path('back_auth/assets/profile/' . $request->user()->image))) {
+                unlink(public_path('back_auth/assets/profile/' . $request->user()->image));
+            }
+
+            $ext = $request->file('image')->extension();
+            $file_name = date('YmdHis') . '.' . $ext;
+            $request->file('image')->move(public_path('back_auth/assets/profile'), $file_name);
+
+            $request->user()->image = $file_name;
+        }
+
+        // Sauvegarde finale de l'utilisateur
         $request->user()->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return Redirect::route('profile.edit')->with('status', 'Profile modifié avec succès');
     }
+
 
     /**
      * Delete the user's account.
